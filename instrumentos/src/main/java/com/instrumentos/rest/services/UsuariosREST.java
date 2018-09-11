@@ -34,6 +34,7 @@ public class UsuariosREST {
     public Usuarios create(Usuarios usuario) {
         usuario.setPassword(usuariosEJB.cifrarPassword(usuario.getPassword()));
         usuariosEJB.create(usuario);
+        usuariosEJB.setRolesAndPreferences(usuario);
         return usuario;
     }
     
