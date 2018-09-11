@@ -17,5 +17,6 @@ import org.glassfish.jersey.server.ResourceConfig;
 public class AppConfig extends ResourceConfig{
     public AppConfig() {
         packages("com.instrumentos.rest.services");
+        packages("com.instrumentos.rest.auth");
     }
 }

@@ -16,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -55,11 +53,6 @@ public class Pedidos implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    @JoinTable(name = "productos_has_pedidos", joinColumns = {
-        @JoinColumn(name = "id_pedidos", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_productos", referencedColumnName = "id")})
-    @ManyToMany
-    private List<Productos> productosList;
     @JoinColumn(name = "id_usuario", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuarios idUsuario;
@@ -68,6 +61,8 @@ public class Pedidos implements Serializable {
     private AgenciaPaqueteria agenciaPaqueteriaId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedidosid")
     private List<Pagos> pagosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedidos")
+    private List<ProductosHasPedidos> productosHasPedidosList;
 
     public Pedidos() {
     }
@@ -100,15 +95,6 @@ public class Pedidos implements Serializable {
         this.fecha = fecha;
     }
 
-    @XmlTransient
-    public List<Productos> getProductosList() {
-        return productosList;
-    }
-
-    public void setProductosList(List<Productos> productosList) {
-        this.productosList = productosList;
-    }
-
     public Usuarios getIdUsuario() {
         return idUsuario;
     }
@@ -132,6 +118,15 @@ public class Pedidos implements Serializable {
 
     public void setPagosList(List<Pagos> pagosList) {
         this.pagosList = pagosList;
+    }
+
+    @XmlTransient
+    public List<ProductosHasPedidos> getProductosHasPedidosList() {
+        return productosHasPedidosList;
+    }
+
+    public void setProductosHasPedidosList(List<ProductosHasPedidos> productosHasPedidosList) {
+        this.productosHasPedidosList = productosHasPedidosList;
     }
 
     @Override

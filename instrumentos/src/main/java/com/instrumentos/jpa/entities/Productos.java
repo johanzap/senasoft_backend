@@ -8,16 +8,17 @@ package com.instrumentos.jpa.entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -52,8 +53,6 @@ public class Productos implements Serializable {
     private String marca;
     @Column(name = "cantidad")
     private Integer cantidad;
-    @ManyToMany(mappedBy = "productosList")
-    private List<Pedidos> pedidosList;
     @JoinColumn(name = "id_tipo_producto", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoProducto idTipoProducto;
@@ -63,6 +62,8 @@ public class Productos implements Serializable {
     @JoinColumn(name = "id_marca", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Marcas idMarca;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productos")
+    private List<ProductosHasPedidos> productosHasPedidosList;
 
     public Productos() {
     }
@@ -103,15 +104,6 @@ public class Productos implements Serializable {
         this.cantidad = cantidad;
     }
 
-    @XmlTransient
-    public List<Pedidos> getPedidosList() {
-        return pedidosList;
-    }
-
-    public void setPedidosList(List<Pedidos> pedidosList) {
-        this.pedidosList = pedidosList;
-    }
-
     public TipoProducto getIdTipoProducto() {
         return idTipoProducto;
     }
@@ -134,6 +126,15 @@ public class Productos implements Serializable {
 
     public void setIdMarca(Marcas idMarca) {
         this.idMarca = idMarca;
+    }
+
+    @XmlTransient
+    public List<ProductosHasPedidos> getProductosHasPedidosList() {
+        return productosHasPedidosList;
+    }
+
+    public void setProductosHasPedidosList(List<ProductosHasPedidos> productosHasPedidosList) {
+        this.productosHasPedidosList = productosHasPedidosList;
     }
 
     @Override

@@ -105,7 +105,7 @@ public class Roles implements Serializable {
 
     @Override
     public String toString() {
-        return "com.instrumentos.jpa.entities.Roles[ id=" + id + " ]";
+        return id;
     }
     
 }
