@@ -47,10 +47,7 @@ public class TipoProducto implements Serializable {
     @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @JoinTable(name = "preferencia_tipo", joinColumns = {
-        @JoinColumn(name = "Tipo_producto_id", referencedColumnName = "id")}, inverseJoinColumns = {
-        @JoinColumn(name = "Usuarios_id", referencedColumnName = "id")})
-    @ManyToMany
+    @ManyToMany(mappedBy = "tipoProductoList")
     private List<Usuarios> usuariosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idTipoProducto")
     private List<Productos> productosList;

@@ -64,8 +64,11 @@ public class Usuarios implements Serializable {
     private String email;
     @Size(max = 200)
     @Column(name = "password")
-    private String password;
-    @ManyToMany(mappedBy = "usuariosList")
+    private String password;    
+    @JoinTable(name = "preferencia_tipo", joinColumns = {
+        @JoinColumn(name = "Usuarios_id", referencedColumnName = "id")}, inverseJoinColumns = {
+        @JoinColumn(name = "Tipo_producto_id", referencedColumnName = "id")})
+    @ManyToMany
     private List<TipoProducto> tipoProductoList;
     @JoinTable(name = "preferencia_marca", joinColumns = {
         @JoinColumn(name = "Usuarios_id", referencedColumnName = "id")}, inverseJoinColumns = {
@@ -137,7 +140,6 @@ public class Usuarios implements Serializable {
         this.password = password;
     }
 
-    @XmlTransient
     public List<TipoProducto> getTipoProductoList() {
         return tipoProductoList;
     }
@@ -146,7 +148,6 @@ public class Usuarios implements Serializable {
         this.tipoProductoList = tipoProductoList;
     }
 
-    @XmlTransient
     public List<Marcas> getMarcasList() {
         return marcasList;
     }
@@ -155,7 +156,6 @@ public class Usuarios implements Serializable {
         this.marcasList = marcasList;
     }
 
-    @XmlTransient
     public List<Roles> getRolesList() {
         return rolesList;
     }
