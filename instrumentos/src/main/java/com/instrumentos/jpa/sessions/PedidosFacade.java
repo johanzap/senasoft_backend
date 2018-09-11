@@ -6,9 +6,12 @@
 package com.instrumentos.jpa.sessions;
 
 import com.instrumentos.jpa.entities.Pedidos;
+import com.instrumentos.jpa.entities.Usuarios;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +30,12 @@ public class PedidosFacade extends AbstractFacade<Pedidos> {
 
     public PedidosFacade() {
         super(Pedidos.class);
+    }
+    
+    public List<Pedidos> consultarPedidos(Integer idUsuario) {
+        Query query = em.createQuery("SELECT p FROM Pedidos p WHERE p.idUsuario = :usuario", Pedidos.class);
+        query.setParameter("usuario", new Usuarios(idUsuario));
+        return (List<Pedidos>) query.getResultList();
     }
     
 }
